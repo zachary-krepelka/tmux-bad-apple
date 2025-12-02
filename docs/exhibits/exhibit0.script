@@ -1,0 +1,9 @@
+sleep 0.5
+typewrite -d 0.2 'clear; bash scripts/view.sh media/exhibit0.tvid'
+sleep 0.5
+enter
+sleep 3
+tmux -L media-player kill-pane -t :2
+sleep 120
+curtain-call
+# vim: ft=bash

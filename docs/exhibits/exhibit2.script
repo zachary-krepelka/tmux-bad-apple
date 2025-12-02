@@ -1,0 +1,15 @@
+sleep 0.5
+typewrite -d 0.2 'clear; bash scripts/view.sh media/exhibit2.tvid'
+sleep 0.5
+enter
+sleep 3
+tmux -L media-player respawn-pane -k -t 0:2.0 sleep infinity
+sleep 150
+tmux -L media-player respawn-pane -k -t 0:2.0 "
+	tar -xOf media/exhibit2.tvid audio-data.mp3 | play -t mp3 - speed 0.25"
+tmux -L media-player next-window
+sleep 30
+tmux -L media-player next-window
+sleep 15
+curtain-call
+# vim: ft=bash

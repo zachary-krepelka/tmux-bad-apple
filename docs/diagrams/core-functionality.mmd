@@ -1,0 +1,21 @@
+%% FILENAME: core-functionality.mmd
+%% AUTHOR: Zachary Krepelka
+%% DATE: Monday, November 3rd, 2025
+%% ABOUT: Bad Apple!! but it's a terminal multiplexer
+%% ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
+
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+
+classDiagram
+
+  direction TB
+
+  view.sh <-- conv.sh
+
+  conv.sh ..> ppm2tmux.awk
+  conv.sh ..> aspect-ratio.awk
+  conv.sh ..> make-meta.jq

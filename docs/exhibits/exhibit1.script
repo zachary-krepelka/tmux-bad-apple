@@ -1,0 +1,6 @@
+typewrite 'clear; bash scripts/view.sh media/exhibit1.tpic'
+sleep 0.5
+enter
+sleep 15
+curtain-call
+# vim: ft=bash

@@ -1,0 +1,37 @@
+%% FILENAME: gif-generation.mmd
+%% AUTHOR: Zachary Krepelka
+%% DATE: Saturday, November 22nd, 2025
+%% ABOUT: Bad Apple!! but it's a terminal multiplexer
+%% ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
+
+---
+config:
+  class:
+    hideEmptyMembersBox: true
+---
+
+classDiagram
+
+  direction TB
+
+  README.md ..> exhibit0.gif
+  README.md ..> exhibit1.gif
+  README.md ..> exhibit2.gif
+  README.md ..> exhibit3.gif
+
+  exhibit0.gif --> exhibit0.cast
+  exhibit1.gif --> exhibit1.cast
+  exhibit2.gif --> exhibit2.cast
+  exhibit3.gif --> exhibit3.cast
+
+  exhibit0.cast --> exhibit0.script
+  exhibit1.cast --> exhibit1.script
+  exhibit2.cast --> exhibit2.script
+  exhibit3.cast --> exhibit3.script
+
+  exhibit0.script --> playwright.sh
+  exhibit1.script --> playwright.sh
+  exhibit2.script --> playwright.sh
+  exhibit3.script --> playwright.sh
+
+  playwright.sh <-- recording.tmux.conf

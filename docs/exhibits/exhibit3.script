@@ -1,0 +1,8 @@
+sleep 0.5
+typewrite 'clear; bash scripts/view.sh -p 8x4 -c cmatrix media/exhibit3.tvid'
+sleep 0.5
+enter
+sleep 3
+tmux -L media-player kill-pane -t :2
+sleep 20
+curtain-call
