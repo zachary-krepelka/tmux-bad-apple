@@ -5,7 +5,7 @@
 # DATE: Tuesday, October 28th, 2025
 # ABOUT: Tmux Bad Apple Media Converter
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, December 1st, 2025 at 10:42 PM
+# UPDATED: Tuesday, January 6th, 2026 at 2:13 AM
 
 # Functions --------------------------------------------------------------- {{{1
 
@@ -150,7 +150,7 @@ then
 	width=$(( scale * $(cut -d: -f1 <<< $aspect_ratio)))
 	height=$((scale * $(cut -d: -f2 <<< $aspect_ratio)))
 
-	convert "$input" -compress none -resize ${width}x$height ppm:- |
+	convert "$input" -compress none -resize ${width}x$height ppm:- 2>/dev/null |
 		awk -f "$location/utils/ppm2tmux.awk" \
 			> "$workspace/visual-data.tmux"
 
@@ -197,7 +197,7 @@ then
 
 		# TODO functionize this, since you use it twice
 
-		convert "$frame" -resize $geometry -compress none ppm:- |
+		convert "$frame" -resize $geometry -compress none ppm:- 2>/dev/null |
 			awk -f "$location/utils/ppm2tmux.awk" \
 					>> "$workspace/visual-data.tmux"
 
