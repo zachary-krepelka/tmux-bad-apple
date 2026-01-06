@@ -5,7 +5,7 @@
 # DATE: Tuesday, October 28th, 2025
 # ABOUT: Tmux Bad Apple Media Viewer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, December 1st, 2025 at 10:42 PM
+# UPDATED: Tuesday, January 6th, 2026 at 2:16 AM
 
 # Functions --------------------------------------------------------------- {{{1
 
@@ -64,7 +64,7 @@ check_dependencies() {
 
 	for cmd in "${dependencies[@]}"
 	do
-		if ! command -v "$cmd" &>/dev/null
+		if ! type -P "$cmd" &>/dev/null
 		then missing+="$cmd, "
 		fi
 	done
