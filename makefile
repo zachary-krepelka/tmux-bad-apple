@@ -3,7 +3,7 @@
 # DATE: Sunday, November 2nd, 2025
 # ABOUT: Bad Apple!! but it's a terminal multiplexer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, December 1st, 2025 at 10:27 PM
+# UPDATED: Friday, February 27th, 2026 at 9:31 PM
 
 # Variables --------------------------------------------------------------- {{{1
 
@@ -54,9 +54,9 @@ deps:
 	@# know that something is missing.  Note that the help message
 	@# is printed to stdout, whereas errors are printed to stderr.
 
-	@-bash scripts/conv.sh -h > /dev/null || true
-	@-bash scripts/view.sh -h > /dev/null || true
-	@-bash docs/exhibits/playwright.sh -h > /dev/null || true
+	@bash scripts/conv.sh -h > /dev/null || true
+	@bash scripts/view.sh -h > /dev/null || true
+	@bash docs/exhibits/playwright.sh -h > /dev/null || true
 
 	@# Note that this does not catch binaries required by this makefile.
 
@@ -73,8 +73,11 @@ demo1: media/finch.tpic
 media/finch.tpic: media/finch.png
 	bash scripts/conv.sh -fs6 $< $@
 
-media/finch.png:
+media/finch.png: | media
 	wget -qP media https://eater.net/downloads/finch.png
+
+media:
+	mkdir -p media
 
 .PHONY: demo2
 demo2: media/bad-apple.tvid
@@ -84,14 +87,17 @@ demo2: media/bad-apple.tvid
 media/bad-apple.tvid: media/bad-apple.mp4
 	bash scripts/conv.sh -fas3 $< $@
 
-media/bad-apple.mp4: tools/ia
+media/bad-apple.mp4: tools/ia | media
 	./tools/ia download --no-directories $(BA_IA_ID) $(BA_IA_FILE)
 	mv $(BA_IA_FILE) $@ && touch $@
 
-tools/ia:
+tools/ia: | tools
 	# https://archive.org/developers/internetarchive/cli.html
 	curl -LOs --output-dir tools https://archive.org/download/ia-pex/ia
 	chmod +x tools/ia
+
+tools:
+	mkdir -p tools
 
 .PHONY: demo3
 demo3: media/bad-apple-3d.tvid
@@ -101,7 +107,7 @@ demo3: media/bad-apple-3d.tvid
 media/bad-apple-3d.tvid: media/bad-apple-3d.mp4
 	bash scripts/conv.sh -fas3 $< $@
 
-media/bad-apple-3d.mp4: tools/ia
+media/bad-apple-3d.mp4: tools/ia | media
 	./tools/ia download --no-directories $(BA3D_IA_ID) $(BA3D_IA_FILE)
 	mv $(BA3D_IA_FILE) $@ && touch $@
 
@@ -156,7 +162,7 @@ media/exhibit3.tvid: media/bad-apple.mp4
 .PHONY: clean
 clean:
 	@## remove intermediate files
-	rm -f media/* tools/ia
+	rm -rf media tools
 
 .PHONY: destroy
 destroy:
