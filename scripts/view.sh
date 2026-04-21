@@ -5,7 +5,7 @@
 # DATE: Tuesday, October 28th, 2025
 # ABOUT: Tmux Bad Apple Media Viewer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, April 20th, 2026 at 8:02 PM
+# UPDATED: Monday, April 20th, 2026 at 9:09 PM
 
 # Functions --------------------------------------------------------------- {{{1
 
@@ -273,7 +273,7 @@ frames=$(tar -xOf "$input" meta-data.json | jq .frames)
 frame_rendering_cmd="{
 	frame=\$((10#\${FILE#x}));
 	progress=\$((frame * 100 / $frames));
-	tmux -L $server source -;
+	tmux -L $server source - \; setb -b frame \$frame \; setb -b progress \$progress;
 }"
 
 if $frame_rate_synchronization_enabled
@@ -374,6 +374,49 @@ counterpart C<N> to go to the next or previous section respectively.
 The uppercase -H is to parallel the lowercase -h.
 
 =back
+
+=head1 API
+
+The tmux bad apple media viewer exposes dynamic information about a video while
+it's playing in a series of tmux buffers.  This information can be accessed
+programmatically to script the application.  Currently, the following
+information is available.
+
+=over
+
+=item frame
+
+This buffer holds the current frame number.
+
+=item progress
+
+This buffer holds the current progress percentage.
+
+=back
+
+=head2 Example
+
+To stop a video at a specific percentage point:
+
+    ,---- [ api-example.sh ]
+  1 | #!/usr/bin/env bash
+  2 |
+  3 | get_progress() {
+  4 |   tmux -L media-player show-buffer -b progress 2>/dev/null || echo 0
+  5 | }
+  6 |
+  7 | stop_at_percent() {
+  8 |   local epsilon=0.1 target=$1
+  9 |   while test $(get_progress) -lt $target; do
+ 10 |     sleep $epsilon
+ 11 |   done
+ 12 |   tmux -L media-player kill-server
+ 13 | }
+ 14 |
+ 15 | bash scripts/view.sh -m media/bad-apple.tvid
+ 16 |
+ 17 | stop_at_percent 9 &
+    `----
 
 =head1 DIAGNOSTICS
 
