@@ -1,6 +1,13 @@
-typewrite 'clear; bash scripts/view.sh media/exhibit1.tpic'
-sleep 0.5
-enter
+source docs/exhibits/shared.sh
+
+pace $(awk '/SPEED_1/{print $3}' makefile)
+
+curtain_up
+
+cmd 'clear; bash scripts/view.sh media/exhibit1.tpic'
+
 sleep 15
-curtain-call
+
+curtain_down
+
 # vim: ft=bash

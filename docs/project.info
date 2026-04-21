@@ -3,7 +3,7 @@
 # DATE: Saturday, November 22nd, 2025
 # ABOUT: Bad Apple!! but it's a terminal multiplexer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, April 20th, 2026 at 9:37 PM
+# UPDATED: Monday, April 20th, 2026 at 10:21 PM
 
 ./bad-apple.tmux
 
@@ -57,11 +57,6 @@
 	This diagram demonstrates how the core
 	components relate to each other.
 
-./docs/diagrams/gif-generation.mmd
-
-	This diagram demonstrates how the GIF generation
-	process works.
-
 ./docs/exhibits
 
 	This directory contains GIFs embedded into the
@@ -70,21 +65,6 @@
 	this directory also contains scripts used to
 	generate the GIFs as well as intermediate files
 	in this process.
-
-./docs/exhibits/playwright.sh
-
-	This is a bash script that aids in the
-	programmatic generation of the GIFS.  It is a
-	user-facing command-line program, so you can
-	pass the -h flag to learn more.  Its input are
-	the files with the .play extension, and its
-	output are the files with the .cast extension.
-
-./docs/exhibits/recording.tmux.conf
-
-	This is a tmux configuration file used to
-	preconfigure the terminal environment for
-	recording.
 
 ./media
 
@@ -153,3 +133,12 @@
 	This is the internet archive command-line
 	utility.  It is used in this project for
 	downloading media from the internet archive.
+
+./tools/playwright.sh
+
+	This is a bash script that aids in the
+	programmatic generation of the GIFS.  It is a
+	user-facing command-line program, so you can
+	pass the -h flag to learn more.  Its input are
+	the files with the .play extension, and its
+	output are the files with the .cast extension.

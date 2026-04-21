@@ -1,8 +1,21 @@
-sleep 0.5
-typewrite 'clear; bash scripts/view.sh -p 8x4 -c cmatrix media/exhibit3.tvid'
-sleep 0.5
-enter
-sleep 3
-tmux -L media-player kill-pane -t :2
-sleep 20
-curtain-call
+source docs/exhibits/shared.sh
+
+pace $(awk '/SPEED_3/{print $3}' makefile)
+
+curtain_up
+
+cmd "clear; bash scripts/view.sh -m -p 12x4 -c 'cmatrix -u 9' media/exhibit3.tvid"
+
+# NOTE for this to work on Arch Linux, cmatrix must be installed with
+#
+# 	yay -S cmatrix-git
+#
+# as apposed to
+#
+# 	sudo pacman -S cmatrix
+
+sleep_until_percent $shared_target_percent
+
+curtain_down
+
+# vim: ft=bash

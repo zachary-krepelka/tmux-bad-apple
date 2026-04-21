@@ -4,7 +4,7 @@
 	DATE: Saturday, November 1st, 2025
 	ABOUT: Bad Apple!! but it's a terminal multiplexer
 	ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-	UPDATED: Friday, November 21st, 2025 at 5:10 AM
+	UPDATED: Tuesday, April 21st, 2026 at 12:07 AM
 -->
 
 # Tmux Bad Apple
@@ -95,17 +95,16 @@ For transparency, here are the low points.
 This section attempts to demonstrate the project and its features.
 
 > [!IMPORTANT]
-> Disclaimer: some of the GIFs presented in this README have been sped up and do
-> not reflect actual playback performance.
-
-> [!NOTE]
-> To meet GitHub's filesize limit for gif playback, the following gifs do not
-> play the full videos.
+> I had to work under tight constraints to meet GitHub's file size limit for GIF
+> playback.  As a disclaimer, some of the GIFs presented in this README have
+> been sped up and do not reflect actual playback performance.  Conversely, some
+> GIFs underrepresent the project.  None of the GIFs show the full video.
 
 ### Exhibit 1
 
-This exhibit showcases a static image being rendered.  This is the same image
-seen in Ben Eater's YouTube video [The world's worst video card?][7].
+To start off simple, this exhibit showcases an image of a bird.  This is the
+same image seen in Ben Eater's YouTube video [The world's worst video card?][7].
+The remaining exhibits will showcase video playback.
 
 ![exhibit1.gif](exhibits/exhibit1.gif)
 
@@ -119,9 +118,16 @@ playing the [colored version of Bad Apple!!][8].  Wait until the end.
 ### Exhibit 3
 
 To drive home the point that each pixel is its own terminal, this exhibit
-showcases the program [cmatrix][9] sunning in each pane.
+showcases the program [cmatrix][9] running in each pane.
 
 ![exhibit3.gif](exhibits/exhibit3.gif)
+
+### Exhibit 4
+
+In case it was not clear that each pane runs a seperate instance of cmatrix,
+this exhibit showcases a different cmatrix color in each pane.
+
+![exhibit4.gif](exhibits/exhibit4.gif)
 
 ## Requirements
 
@@ -133,31 +139,16 @@ make deps
 ```
 
 Issue it in the repo's root after cloning.  Install any missing binaries with
-your package manager.
-
-> [!WARNING]
-> This does not catch missing binaries required by the makefile itself.
-
-For completeness, I enumerate *all* binaries used below in alphabetical order,
-although some are not strictly nessecary.
-
-> agg asciinema awk bash cat cava chmod column convert curl cut dc dirname
-> ffmpeg ffprobe file gifsicle identify jq less ls mktemp mv play pod2text
-> realpath rm sleep split tar time tmux touch tput tree wget whiptail
-
-These are usually installed using the following identifiers to your package
-manager.
+your package manager.  The binary names reported by the makefile are likely the
+identifiers you should supply to your package manager.  We note exceptions
+below.
 
 - `imagemagik` will install `convert` and `identify`.
 - `ffmpeg` will install `ffmpeg` and `ffprobe`.
 - `sox` will install `play`.
 
-The rest are installed by name if they are not already present on your system.
-
 > [!WARNING]
-> GNU variants of programs are preferred where applicable, e.g., prefer GNU awk
-> to other implementations.  Compatibility is not promised for non-GNU program
-> implementations.
+> This does not catch missing binaries required by the makefile itself.
 
 ## Installation
 

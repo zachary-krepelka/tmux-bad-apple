@@ -3,7 +3,7 @@
 # DATE: Sunday, November 2nd, 2025
 # ABOUT: Bad Apple!! but it's a terminal multiplexer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Friday, February 27th, 2026 at 9:31 PM
+# UPDATED: Monday, April 20th, 2026 at 10:09 PM
 
 # Variables --------------------------------------------------------------- {{{1
 
@@ -21,7 +21,11 @@ SPEED_2 := 6
 
 DIMEN_3 := 132x43
 SCALE_3 := 2
-SPEED_3 := 3
+SPEED_3 := 1
+
+DIMEN_4 := 132x43
+SCALE_4 := 2
+SPEED_4 := 1
 
 # BA stands for bad apple
 # IA stands for internet archive
@@ -56,7 +60,6 @@ deps:
 
 	@bash scripts/conv.sh -h > /dev/null || true
 	@bash scripts/view.sh -h > /dev/null || true
-	@bash docs/exhibits/playwright.sh -h > /dev/null || true
 
 	@# Note that this does not catch binaries required by this makefile.
 
@@ -76,9 +79,6 @@ media/finch.tpic: media/finch.png
 media/finch.png: | media
 	wget -qP media https://eater.net/downloads/finch.png
 
-media:
-	mkdir -p media
-
 .PHONY: demo2
 demo2: media/bad-apple.tvid
 	@## play bad apple
@@ -90,14 +90,6 @@ media/bad-apple.tvid: media/bad-apple.mp4
 media/bad-apple.mp4: tools/ia | media
 	./tools/ia download --no-directories $(BA_IA_ID) $(BA_IA_FILE)
 	mv $(BA_IA_FILE) $@ && touch $@
-
-tools/ia: | tools
-	# https://archive.org/developers/internetarchive/cli.html
-	curl -LOs --output-dir tools https://archive.org/download/ia-pex/ia
-	chmod +x tools/ia
-
-tools:
-	mkdir -p tools
 
 .PHONY: demo3
 demo3: media/bad-apple-3d.tvid
@@ -129,7 +121,7 @@ keybinds: media/finch.tpic media/bad-apple.tvid media/bad-apple-3d.tvid
 	tmux set -g @mediaconf3 '-s'
 
 .PHONY: readme
-readme: $(foreach i,0 1 2 3,docs/exhibits/exhibit$(i).gif)
+readme: $(foreach i,0 1 2 3 4,docs/exhibits/exhibit$(i).gif)
 	@## generate embedded media for the README file
 	# each gif must be under 10 MB to play on GitHub
 	ls -lh $^
@@ -139,13 +131,14 @@ docs/exhibits/exhibit%.gif: docs/exhibits/exhibit%.cast
 	gifsicle --optimize=3 --batch $@
 
 # .PRECIOUS: docs/exhibits/exhibit%.cast # uncomment to keep casts
-docs/exhibits/exhibit%.cast: docs/exhibits/exhibit%.play docs/exhibits/recording.tmux.conf
-	bash $(@D)/playwright.sh -f -c $(@D)/recording.tmux.conf -d $(DIMEN_$*) $< $@
+docs/exhibits/exhibit%.cast: docs/exhibits/exhibit%.play | tools/playwright.sh
+	bash tools/playwright.sh -f -d $(DIMEN_$*) $< $@
 
 docs/exhibits/exhibit0.play: media/exhibit0.tvid
 docs/exhibits/exhibit1.play: media/exhibit1.tpic
 docs/exhibits/exhibit2.play: media/exhibit2.tvid
 docs/exhibits/exhibit3.play: media/exhibit3.tvid
+docs/exhibits/exhibit4.play: media/exhibit3.tvid # reuses same file
 
 media/exhibit0.tvid: media/bad-apple.mp4
 	bash scripts/conv.sh -fas$(SCALE_0) $< $@
@@ -168,5 +161,19 @@ clean:
 destroy:
 	@## remove end deliverables
 	rm -f docs/exhibits/*.gif
+
+media:
+	mkdir -p media
+
+tools:
+	mkdir -p tools
+
+tools/ia: | tools
+	# https://archive.org/developers/internetarchive/cli.html
+	curl -LOs --output-dir tools https://archive.org/download/ia-pex/ia
+	chmod +x tools/ia
+
+tools/playwright.sh: | tools
+	wget -P tools https://raw.githubusercontent.com/zachary-krepelka/tmux-playwright/refs/heads/main/playwright.sh
 
 # vim: tw=80 ts=8 sw=8 noet fdm=marker

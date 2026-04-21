@@ -1,9 +1,13 @@
-sleep 0.5
-typewrite -d 0.2 'clear; bash scripts/view.sh media/exhibit0.tvid'
-sleep 0.5
-enter
-sleep 3
-tmux -L media-player kill-pane -t :2
-sleep 120
-curtain-call
+source docs/exhibits/shared.sh
+
+pace $(awk '/SPEED_0/{print $3}' makefile)
+
+curtain_up
+
+cmd 'clear; bash scripts/view.sh -m media/exhibit0.tvid'
+
+sleep_until_percent -e 0.5 $((shared_target_percent * 2))
+
+curtain_down
+
 # vim: ft=bash

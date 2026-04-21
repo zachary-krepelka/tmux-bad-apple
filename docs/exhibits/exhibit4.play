@@ -1,0 +1,32 @@
+source docs/exhibits/shared.sh
+
+pace $(awk '/SPEED_4/{print $3}' makefile)
+
+mv media/exhibit{3,4}.tvid
+
+curtain_up
+
+cmd 'rmatrix() {
+	local colors=(green red blue white yellow cyan magenta black)
+	cmatrix -C ${colors[$((RANDOM % ${#colors[@]}))]} -u 9
+}'
+
+cmd 'export -f rmatrix'
+
+cmd "clear; bash scripts/view.sh -m -p 12x4 -c 'bash -c rmatrix' media/exhibit4.tvid"
+
+# NOTE for this to work on Arch Linux, cmatrix must be installed with
+#
+# 	yay -S cmatrix-git
+#
+# as apposed to
+#
+# 	sudo pacman -S cmatrix
+
+sleep_until_percent $shared_target_percent
+
+curtain_down
+
+mv media/exhibit{4,3}.tvid
+
+# vim: ft=bash
