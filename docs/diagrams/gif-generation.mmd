@@ -3,7 +3,7 @@
 %% DATE: Saturday, November 22nd, 2025
 %% ABOUT: Bad Apple!! but it's a terminal multiplexer
 %% ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-%% UPDATED: Thursday, April 9th, 2026 at 12:04 PM
+%% UPDATED: Monday, April 20th, 2026 at 9:36 PM
 
 %%{
   init: {
@@ -27,14 +27,14 @@ classDiagram
   exhibit2.gif --> exhibit2.cast
   exhibit3.gif --> exhibit3.cast
 
-  exhibit0.cast --> exhibit0.script
-  exhibit1.cast --> exhibit1.script
-  exhibit2.cast --> exhibit2.script
-  exhibit3.cast --> exhibit3.script
+  exhibit0.cast --> exhibit0.play
+  exhibit1.cast --> exhibit1.play
+  exhibit2.cast --> exhibit2.play
+  exhibit3.cast --> exhibit3.play
 
-  exhibit0.script --> playwright.sh
-  exhibit1.script --> playwright.sh
-  exhibit2.script --> playwright.sh
-  exhibit3.script --> playwright.sh
+  exhibit0.play --> playwright.sh
+  exhibit1.play --> playwright.sh
+  exhibit2.play --> playwright.sh
+  exhibit3.play --> playwright.sh
 
   playwright.sh <-- recording.tmux.conf

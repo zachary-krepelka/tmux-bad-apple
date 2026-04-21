@@ -139,13 +139,13 @@ docs/exhibits/exhibit%.gif: docs/exhibits/exhibit%.cast
 	gifsicle --optimize=3 --batch $@
 
 # .PRECIOUS: docs/exhibits/exhibit%.cast # uncomment to keep casts
-docs/exhibits/exhibit%.cast: docs/exhibits/exhibit%.script docs/exhibits/recording.tmux.conf
+docs/exhibits/exhibit%.cast: docs/exhibits/exhibit%.play docs/exhibits/recording.tmux.conf
 	bash $(@D)/playwright.sh -f -c $(@D)/recording.tmux.conf -d $(DIMEN_$*) $< $@
 
-docs/exhibits/exhibit0.script: media/exhibit0.tvid
-docs/exhibits/exhibit1.script: media/exhibit1.tpic
-docs/exhibits/exhibit2.script: media/exhibit2.tvid
-docs/exhibits/exhibit3.script: media/exhibit3.tvid
+docs/exhibits/exhibit0.play: media/exhibit0.tvid
+docs/exhibits/exhibit1.play: media/exhibit1.tpic
+docs/exhibits/exhibit2.play: media/exhibit2.tvid
+docs/exhibits/exhibit3.play: media/exhibit3.tvid
 
 media/exhibit0.tvid: media/bad-apple.mp4
 	bash scripts/conv.sh -fas$(SCALE_0) $< $@

@@ -3,7 +3,7 @@
 # DATE: Saturday, November 22nd, 2025
 # ABOUT: Bad Apple!! but it's a terminal multiplexer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Monday, December 1st, 2025 at 10:53 PM
+# UPDATED: Monday, April 20th, 2026 at 9:37 PM
 
 ./bad-apple.tmux
 
@@ -77,7 +77,7 @@
 	programmatic generation of the GIFS.  It is a
 	user-facing command-line program, so you can
 	pass the -h flag to learn more.  Its input are
-	the files with the .script extension, and its
+	the files with the .play extension, and its
 	output are the files with the .cast extension.
 
 ./docs/exhibits/recording.tmux.conf
