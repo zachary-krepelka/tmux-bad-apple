@@ -5,7 +5,7 @@
 # DATE: Tuesday, October 28th, 2025
 # ABOUT: Tmux Bad Apple Media Viewer
 # ORIGIN: https://github.com/zachary-krepelka/tmux-bad-apple.git
-# UPDATED: Tuesday, January 6th, 2026 at 2:16 AM
+# UPDATED: Monday, April 20th, 2026 at 8:02 PM
 
 # Functions --------------------------------------------------------------- {{{1
 
@@ -58,8 +58,7 @@ check_dependencies() {
 	local missing= dependencies=(
 		cat cava cut dc jq less
 		play pod2text sleep
-		split tar time tmux
-		whiptail
+		split tar tmux whiptail
 	)
 
 	for cmd in "${dependencies[@]}"
@@ -269,7 +268,13 @@ fi
 
 # $media_type must be video if this is reached
 
-frame_rendering_cmd="tmux -L $server source -"
+frames=$(tar -xOf "$input" meta-data.json | jq .frames)
+
+frame_rendering_cmd="{
+	frame=\$((10#\${FILE#x}));
+	progress=\$((frame * 100 / $frames));
+	tmux -L $server source -;
+}"
 
 if $frame_rate_synchronization_enabled
 then
@@ -280,19 +285,14 @@ then
 	# render_time = (determined on the fly)
 	# delay_time  = frame_time - render_time
 
-	precision=4
+	precision=5
 
 	frame_time=$(dc -e "$precision k
 		1 $frames_per_second / $frame_rate_adjustment_factor * p q")
 
-	render_time="\$(command time -f %e $frame_rendering_cmd 2>&1)"
+	render_time="\${ { time $frame_rendering_cmd } 2>&1; }"
 
-	# NOTE we explicitly use the binary file 'time' as apposed to the shell
-	# keyword 'time'.  Prefixing the word `time` with the shell builtin
-	# `command` prevents it from being resolved as a shell keyword.  Try
-	# 'type -a time' in bash for context.
-
-	delay_time="\$(dc -e \"$precision k $frame_time $render_time - p q\")"
+	delay_time="\${ dc -e \"$precision k $frame_time $render_time - p q\"; }"
 
 	frame_rendering_cmd="sleep -- $delay_time 2> /dev/null || exit 0"
 
@@ -307,19 +307,17 @@ then termination_cmd="tmux -L $server command-prompt -1p\$SECONDS kill-server"
 else termination_cmd="tmux -L $server kill-server"
 fi
 
-frames=$(tar -xOf "$input" meta-data.json | jq .frames)
-
-OoM=$(tar -xOf "$input" meta-data.json | jq .order_of_magnitude)
-
 # TODO implement a frame seeking mechanism by injecting a head or tail command
 # between the tar and split commands. You will need to adjust the progress bar
 # logic by adding an offset to the current file index.
 
+OoM=$(tar -xOf "$input" meta-data.json | jq .order_of_magnitude)
+
 video_playback_cmd="
+	export TIMEFORMAT=%${precision}R;
 	tar -xOf '$input' visual-data.tmux |
 		split -da$OoM -l $pixels --filter '
-			$frame_rendering_cmd;
-			echo \$(((10#\${FILE#x}+1) * 100 / $frames))' |
+			$frame_rendering_cmd; echo \$progress' |
 		whiptail --gauge 'Video Progress Bar...' 6 $((wind_width-4)) 0;
 	$termination_cmd"
 
